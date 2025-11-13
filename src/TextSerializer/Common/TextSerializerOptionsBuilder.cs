@@ -97,6 +97,9 @@ public class TextSerializerOptionsBuilder
         return this;
     }
 
+    /// <summary>
+    /// Ads IValueConverter<TType> for types bool, bool? decimal, decimal?, int, int?, string, TimeSpan, TimeOnly, DateTime
+    /// </summary>
     public TextSerializerOptionsBuilder UseDefaultValueConverters()
     {
         _services.AddSingleton<IValueConverter, BoolValueConverter>();
@@ -108,6 +111,7 @@ public class TextSerializerOptionsBuilder
         _services.AddSingleton<IValueConverter, StringValueConverter>();
         _services.AddSingleton<IValueConverter, TimeSpanValueConverter>();
         _services.AddSingleton<IValueConverter, TimeOnlyConverter>();
+        _services.AddSingleton<IValueConverter, NullableTimeOnlyConverter>();
         _services.AddSingleton<IValueConverter, DateTimeValueConverter>();
         _services.AddSingleton<IValueConverter, NullableDateTimeValueConverter>();
         _services.AddSingleton<IValueConverter, DateOnlyValueConverter>();

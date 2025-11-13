@@ -34,11 +34,11 @@ public class DeserializeComplexMessage : IClassFixture<ServiceProviderFixture>
 
         result.Should().BeEquivalentTo(expected);
     }
-
+    //TODO add rest of types from default value converters
     public static TheoryData<string, TestReceiveMessage> TestData => new()
     {
         {
-            $"<DeserializeComplexMessage|Value1|Value2|3|4|1|1|23.3|44.567#CRC>",
+            $"<DeserializeComplexMessage|Value1|Value2|3|4|1|1|23.3|44.567|8:3|11:12#CRC>",
             new()
             {
                 MessageId = nameof(DeserializeComplexMessage),
@@ -50,10 +50,12 @@ public class DeserializeComplexMessage : IClassFixture<ServiceProviderFixture>
                 Property6NullableBool = true,
                 Property7Decimal = 23.3m,
                 Property8NullableDecimal = 44.567m,
+                Property9TimeOnly = TimeOnly.Parse("8:3"),
+                Property10TimeOnly = TimeOnly.Parse("11:12"),
             }
         },
         {
-            $"<DeserializeComplexMessage|Value1|Value2|3|4|0|0|23.3|44.567#CRC>",
+            $"<DeserializeComplexMessage|Value1|Value2|3|4|0|0|23.3|44.567|8:3|11:12#CRC>",
             new()
             {
                 MessageId = nameof(DeserializeComplexMessage),
@@ -65,10 +67,12 @@ public class DeserializeComplexMessage : IClassFixture<ServiceProviderFixture>
                 Property6NullableBool = false,
                 Property7Decimal = 23.3m,
                 Property8NullableDecimal = 44.567m,
+                Property9TimeOnly = TimeOnly.Parse("8:3"),
+                Property10TimeOnly = TimeOnly.Parse("11:12"),
             }
         },
         {
-            $"<DeserializeComplexMessage|Value1|Value2|3||0||23.3|#CRC>",
+            $"<DeserializeComplexMessage|Value1|Value2|3||0||23.3||8:3|#CRC>",
             new()
             {
                 MessageId = nameof(DeserializeComplexMessage),
@@ -80,6 +84,9 @@ public class DeserializeComplexMessage : IClassFixture<ServiceProviderFixture>
                 Property6NullableBool = null,
                 Property7Decimal = 23.3m,
                 Property8NullableDecimal = null,
+                Property9TimeOnly = TimeOnly.Parse("8:3"),
+                Property10TimeOnly = null,
+
             }
         },
     };
@@ -95,5 +102,7 @@ public class DeserializeComplexMessage : IClassFixture<ServiceProviderFixture>
         public bool? Property6NullableBool { get; set; }
         public decimal Property7Decimal { get; set; }
         public decimal? Property8NullableDecimal { get; set; }
+        public TimeOnly Property9TimeOnly { get; set; }
+        public TimeOnly? Property10TimeOnly { get; set; }
     }
 }

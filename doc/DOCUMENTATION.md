@@ -8,6 +8,33 @@ It was designed for STX ETX protocols.
 
 #### Value converter
 
+Value converter is used to convert message property value to string and string to message property value. 
+You can add default converters which use .ToString() method to convert to string and [type].Parse(string value) method.
+For implementation your format the are useless but for testing and see how library works are fine. 
+``` 
+services.AddTextSerializer(options => options.UseDefaultValueConverters());
+```
+
+To add value converter implement interface IValueConverter<TType> and add class on configuration.
+If you use nullable C# value types you need to add two value converters e.g. IValueConverter<int> and IValueConverter<int?>. 
+```
+internal class IntValueConverter : IValueConverter<int>
+{
+    public object Convert(string value) => int.Parse(value);
+
+    public string Convert(object value) => ((int)value).ToString();
+}
+
+internal class NullableIntValueConverter : IValueConverter<int?>
+{
+    public object Convert(string value) => string.IsNullOrEmpty(value) ? null! : int.Parse(value);
+
+    public string Convert(object value) => value is null ? string.Empty : value.ToString()!;
+}
+
+services.AddTextSerializer(options => options.AddValueConverter<IntValueConverter>().AddValueConverter<NullableIntValueConverter>());
+```
+
 #### Attributes
 
 ##### Conditional
