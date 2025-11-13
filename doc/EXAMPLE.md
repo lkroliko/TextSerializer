@@ -49,26 +49,8 @@ Configure 3 protocol requirement.
 Configure 4, 5, 6 protocol requirement.
 
 ```
-internal class CrcDeserializerPreProcessor : IDeserializerPreProcessor
-{
-    public string Process(string text) => text.Replace("#CRC", string.Empty);
-}
-```
-
-```
-internal class CrcSerializerPostProcessor : ISerializerPostProcessor
-{
-    public void Process(SerializationContext context)
-    {
-        context.Builder!.Remove(context.Builder.Length - 1, 1);
-        context.Builder.Append("#CRC>");
-    }
-}
-```
-
-```
-    options.AddDeserializerPreProcessor<CrcDeserializerPreProcessor>()
-        .AddSerializerPostProcessor<CrcSerializerPostProcessor>();
+    options.AddDeserializerPreProcessor(text => text.Replace("#CRC", string.Empty))
+        .AddSerializerPostProcessor(text => text.Replace(">", "#CRC>"));
 ```
 
 #### Value converters
@@ -111,6 +93,7 @@ public abstract class ProtocolTransmitMessage : TextSerializer.Common.TransmitMe
 For receive message "<Hello|Example|1#CRC>".
 
 Implement message class.
+
 ```
 [MessageId("Hello")]
 public class HelloProtocolReceiveMessage : ProtocolReceiveMessage
@@ -121,6 +104,7 @@ public class HelloProtocolReceiveMessage : ProtocolReceiveMessage
 ```
 
 Pass text to deserialize method and it return message of type HelloProtocolReceiveMessage.
+
 ```
 private readonly ITextSerializer _textSerializer;
 
@@ -135,6 +119,7 @@ var message = _textSerializer.Deserialize(text);
 For send message "<Hello|Example|1#CRC>".
 
 Implement message class.
+
 ```
 public class HelloTransmitMessage : ProtocolTransmitMessage
 {
@@ -145,6 +130,7 @@ public class HelloTransmitMessage : ProtocolTransmitMessage
 ```
 
 Pass message object to serialize method and it return text.
+
 ```
 private readonly ITextSerializer _textSerializer;
 

@@ -5,8 +5,6 @@ public class SerializationContext
     public List<SerializationProperty> Properties { get; } = new();
     public Type ObjectType { get; }
 
-    public StringBuilder? Builder { get; internal set; }
-
     public SerializationContext(Type objectType)
     {
         ObjectType = objectType;

@@ -2,6 +2,7 @@
 internal class Serializer : ISerializer
 {
     private readonly ISerializerService _serializer;
+    private readonly ISerializerPreProcessorService _serializerPreProcessor;
     private readonly ISerializerPostProcessorService _serializerPostProcessor;
     private readonly ISerializerValidatorService _serializerValidator;
     private readonly ISerializerFormatterService _serializerFormatter;
@@ -9,10 +10,11 @@ internal class Serializer : ISerializer
     private readonly ITextBuilderService _textBuilder;
 
 
-    public Serializer(ISerializerService serializer, ISerializerPostProcessorService serializerPostProcessor, ISerializerValidatorService serializerValidator,
+    public Serializer(ISerializerService serializer, ISerializerPreProcessorService serializerPreProcessor, ISerializerPostProcessorService serializerPostProcessor, ISerializerValidatorService serializerValidator,
         ISerializerFormatterService serializationFormatter, ISerializationContextFactory serializationContextFactory, ITextBuilderService textBuilderService)
     {
         _serializer = serializer;
+        _serializerPreProcessor = serializerPreProcessor;
         _serializerPostProcessor = serializerPostProcessor;
         _serializerValidator = serializerValidator;
         _serializerFormatter = serializationFormatter;
@@ -26,9 +28,9 @@ internal class Serializer : ISerializer
         Validate(context);
         Serialize(context);
         Format(context);
-        BuildText(context);
-        RunPostProcess(context);//TODO zminić na pre process? 
-        return context.Builder!.ToString();
+        RunPreProcess(context);
+        var text = BuildText(context);
+        return RunPostProcess(text);
     }
 
     private void Serialize(SerializationContext context) => _serializer.Serialize(context);
@@ -37,9 +39,11 @@ internal class Serializer : ISerializer
 
     private void Validate(SerializationContext context) => _serializerValidator.Validate(context);
 
-    private void RunPostProcess(SerializationContext context) => _serializerPostProcessor.Run(context);
+    private void RunPreProcess(SerializationContext context) => _serializerPreProcessor.Run(context);
 
-    private void BuildText(SerializationContext context) => _textBuilder.Build(context);
+    private string RunPostProcess(string text) => _serializerPostProcessor.Run(text);
+
+    private string BuildText(SerializationContext context) => _textBuilder.Build(context);
 
     private SerializationContext GetSerializationContext(object value) => _serializationContextFactory.Get(value);
 }

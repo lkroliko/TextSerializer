@@ -1,16 +1,16 @@
-﻿using MrRabbit.TextSerializer.Serialization.Services;
+﻿using AutoFixture;
+using MrRabbit.TextSerializer.Serialization.Services;
 
 namespace MrRabbit.TextSerializer.UnitTests.Serialization.Services.SerializerTests;
 [Trait("Category", "Serializer")]
 public class Serialize
 {
     private readonly ITypedSerializerProvider _serializerProvider = Mock.Of<ITypedSerializerProvider>();
-    private readonly ISerializerPostProcessor _postProcessor1 = Mock.Of<ISerializerPostProcessor>();
-    private readonly ISerializerPostProcessor _postProcessor2 = Mock.Of<ISerializerPostProcessor>();
     private readonly ISerializerValidatorService _validator = Mock.Of<ISerializerValidatorService>();
     private readonly ISerializerFormatterService _formatter = Mock.Of<ISerializerFormatterService>();
     private readonly ISerializationContextFactory _contextFactory = Mock.Of<ISerializationContextFactory>();
     private readonly ISerializerService _serializerService = Mock.Of<ISerializerService>();
+    private readonly ISerializerPreProcessorService _serializerPreProcessorService = Mock.Of<ISerializerPreProcessorService>();
     private readonly ISerializerPostProcessorService _serializerPostProcessorService = Mock.Of<ISerializerPostProcessorService>();
     private readonly ISerializerValidatorService _serializerValidatorService = Mock.Of<ISerializerValidatorService>();
     private readonly ISerializationContextFactory _serializationContextFactory = Mock.Of<ISerializationContextFactory>();
@@ -22,14 +22,16 @@ public class Serialize
         .WithProperty(builder => builder.WithContext(builder => builder.WithType(typeof(TestClass))));
     private readonly ITypedSerializer _fakeTransmitMessageSerializer = Mock.Of<ITypedSerializer>();
     private readonly ITypedSerializer _testClassSerializer = Mock.Of<ITypedSerializer>();
+    private readonly string _text = A.Fixture.Create<string>();
 
     public Serialize()
     {
-        _serializer = new(_serializerService, _serializerPostProcessorService, _serializerValidatorService, _serializerFormatterService, _serializationContextFactory, _textBuilderFactory);
+        _serializer = new(_serializerService, _serializerPreProcessorService, _serializerPostProcessorService, _serializerValidatorService, _serializerFormatterService, _serializationContextFactory, _textBuilderFactory);
 
         Mock.Get(_contextFactory).Setup(s => s.Get(_transmitMessage)).Returns(_context);
         Mock.Get(_serializerProvider).Setup(p => p.Get(_context.ObjectType)).Returns(_fakeTransmitMessageSerializer);
         Mock.Get(_serializerProvider).Setup(p => p.Get(_context.Properties.First().Context!.ObjectType)).Returns(_testClassSerializer);
+        Mock.Get(_textBuilderFactory).Setup(f => f.Build(_context)).Returns(_text);
     }
 
     [Fact]
@@ -66,12 +68,19 @@ public class Serialize
     }
 
     [Fact]
-    public void WhenCalledThenSerializerPostProcessorsProcessCalled()
+    public void WhenCalledThenSerializerPostProcessorsServiceCalled()
     {
         _serializer.Serialize(_transmitMessage);
 
-        Mock.Get(_postProcessor1).Verify(p => p.Process(_context), Times.Once);
-        Mock.Get(_postProcessor2).Verify(p => p.Process(_context), Times.Once);
+        Mock.Get(_serializerPostProcessorService).Verify(p => p.Run(_text), Times.Once);
+    }
+
+    [Fact]
+    public void WhenCalledThenSerializerPreProcessorsServiceCalled()
+    {
+        _serializer.Serialize(_transmitMessage);
+
+        Mock.Get(_serializerPreProcessorService).Verify(p => p.Run(_context), Times.Once);
     }
 
     class TestClass { }

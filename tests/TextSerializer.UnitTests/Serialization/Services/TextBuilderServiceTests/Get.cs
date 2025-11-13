@@ -16,9 +16,8 @@ public class Get
     [MemberData(nameof(TestData))]
     internal void WhenCalledThenMessageFrameCreated(SerializationContext context, string expected)
     {
-        _factory.Build(context);
+        var result = _factory.Build(context);
 
-        var result = context.Builder!.ToString();
         result.Should().Be(expected);
     }
 

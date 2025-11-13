@@ -8,13 +8,13 @@ internal class TextBuilderService : ITextBuilderService
         _options = options;
     }
 
-    public void Build(SerializationContext context)
+    public string Build(SerializationContext context)
     {
         var builder = new StringBuilder();
         builder.Append(_options.Value.Prefix);
         Build(context);
         builder.Append(_options.Value.Suffix);
-        context.Builder = builder;
+        return builder.ToString();
 
         void Build(SerializationContext context)
         {

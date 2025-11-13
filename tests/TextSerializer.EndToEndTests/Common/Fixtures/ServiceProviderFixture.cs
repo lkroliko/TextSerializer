@@ -35,8 +35,8 @@ public class ServiceProviderFixture
                 })
                 .AddMessageIdProvider(text => text.TrimStart('<').Split('|')[0])
                 .RegisterReceiveMessages(Assembly.GetExecutingAssembly())
-                .AddDeserializerPreProcessor<CrcDeserializerPreProcessor>()
-                .AddSerializerPostProcessor<CrcSerializerPostProcessor>()
+                .AddDeserializerPreProcessor(text => text.Replace("#CRC", string.Empty))
+                .AddSerializerPostProcessor(text => text.Replace(">", "#CRC>"))
                 .AddTypedDeserializer<SimpleValueObjectTypedDeserializer>()
                 .AddSerializerFormatter<FixedLengthSerializatorFormatter>()
                 .AddValueConverter<CustomStringValueConverter>());

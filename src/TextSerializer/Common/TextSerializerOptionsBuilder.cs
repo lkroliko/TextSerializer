@@ -1,10 +1,12 @@
 ﻿using System.Reflection;
 using MrRabbit.TextSerializer.Common.ValueConverters;
 using MrRabbit.TextSerializer.Deserialization.Factories;
+using MrRabbit.TextSerializer.Deserialization.PreProcessor;
 using MrRabbit.TextSerializer.Deserialization.Providers;
 using MrRabbit.TextSerializer.Deserialization.Services;
 using MrRabbit.TextSerializer.Deserialization.TypedDeserializers;
 using MrRabbit.TextSerializer.Serialization.Factories;
+using MrRabbit.TextSerializer.Serialization.PostProcessors;
 using MrRabbit.TextSerializer.Serialization.Providers;
 using MrRabbit.TextSerializer.Serialization.Services;
 using MrRabbit.TextSerializer.Serialization.TypedSerializers;
@@ -32,12 +34,14 @@ public class TextSerializerOptionsBuilder
         _services.AddSingleton<ISerializer, Serializer>();
         _services.AddSingleton<ISerializerFormatterProvider, SerializerFormatterProvider>();
         _services.AddSingleton<ISerializerFormatterService, SerializerFormatterService>();
+        _services.AddSingleton<ISerializerPreProcessorProvider, SerializerPreProcessorProvider>();
+        _services.AddSingleton<ISerializerPreProcessorService, SerializerPreProcessorService>();
         _services.AddSingleton<ISerializerPostProcessorProvider, SerializerPostProcessorProvider>();
         _services.AddSingleton<ISerializerPostProcessorService, SerializerPostProcessorService>();
         _services.AddSingleton<ISerializerService, SerializerService>();
         _services.AddSingleton<ISerializerValidatorService, SerializerValidatorService>();
         _services.AddSingleton<ITextBuilderService, TextBuilderService>();
-        _services.AddSingleton<ITextSerializer, MrRabbit.TextSerializer.Services.TextSerializer>();
+        _services.AddSingleton<ITextSerializer, TextSerializer>();
         _services.AddSingleton<ITypedDeserializer, ReceiveMessageTypedDeserializer>();
         _services.AddSingleton<ITypedDeserializerProvider, TypedDeserializerProvider>();
         _services.AddSingleton<ITypedSerializer, TransmitMessageTypedSerializer>();
@@ -57,9 +61,21 @@ public class TextSerializerOptionsBuilder
         return this;
     }
 
+    public TextSerializerOptionsBuilder AddSerializerPreProcessor<T>() where T : class, ISerializerPreProcessor
+    {
+        _services.AddSingleton<ISerializerPreProcessor, T>();
+        return this;
+    }
+
     public TextSerializerOptionsBuilder AddSerializerPostProcessor<T>() where T : class, ISerializerPostProcessor
     {
         _services.AddSingleton<ISerializerPostProcessor, T>();
+        return this;
+    }
+
+    public TextSerializerOptionsBuilder AddSerializerPostProcessor(Func<string, string> process)
+    {
+        _services.AddSingleton<ISerializerPostProcessor>(new SerializationPostProcessor(process));
         return this;
     }
 
@@ -134,6 +150,12 @@ public class TextSerializerOptionsBuilder
     public TextSerializerOptionsBuilder AddDeserializerPreProcessor<T>() where T : class, IDeserializerPreProcessor
     {
         _services.AddSingleton<IDeserializerPreProcessor, T>();
+        return this;
+    }
+
+    public TextSerializerOptionsBuilder AddDeserializerPreProcessor(Func<string, string> process)
+    {
+        _services.AddSingleton<IDeserializerPreProcessor>(new DeserializerPreProcessor(process));
         return this;
     }
 

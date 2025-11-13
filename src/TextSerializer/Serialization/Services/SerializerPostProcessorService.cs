@@ -2,15 +2,16 @@
 
 internal class SerializerPostProcessorService : ISerializerPostProcessorService
 {
-    private readonly ISerializerPostProcessorProvider _serializerPostProcessorProvider;
+    private readonly ISerializerPostProcessorProvider _serializerPreProcessorProvider;
 
     public SerializerPostProcessorService(ISerializerPostProcessorProvider serializerPostProcessorProvider)
     {
-        _serializerPostProcessorProvider = serializerPostProcessorProvider;
+        _serializerPreProcessorProvider = serializerPostProcessorProvider;
     }
 
-    public void Run(SerializationContext context)
+    public string Run(string text)
     {
-        _serializerPostProcessorProvider.Get().ToList().ForEach(p => p.Process(context));
+        _serializerPreProcessorProvider.Get().ToList().ForEach(p => text = p.Process(text));
+        return text;
     }
 }

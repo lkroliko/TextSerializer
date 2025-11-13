@@ -2,5 +2,5 @@
 
 public interface ISerializerPostProcessor
 {
-    void Process(SerializationContext context);
+    string Process(string text);
 }

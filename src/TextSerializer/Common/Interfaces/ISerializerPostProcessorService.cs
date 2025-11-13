@@ -2,5 +2,5 @@
 
 internal interface ISerializerPostProcessorService
 {
-    void Run(SerializationContext context);
+    string Run(string text);
 }
