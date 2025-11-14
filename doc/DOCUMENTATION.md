@@ -79,6 +79,35 @@ Value of property will be converted by selected converter.
 
 ##### SerializerFormatter
 
+It allows to format serialized value. For example property type is int but serialized value must have always length 4 and empty space are filled with 0 (From value 12 serialized value must by 0012).
+
+To add formatter implement class with interface ISerializerFormatter and add class on configuration.
+```
+public class SerializerFormatter : ISerializerFormatter
+{
+    void Format(SerializationProperty property)
+    {
+        
+        ...
+    }
+}
+
+services.AddTextSerializer(options => options.AddSerializerFormatter<SerializerFormatter>());
+```
+
+Mark property with <i>UseSerializerFormatter<T></i> attribute.
+```
+internal class TransmitMessage : TextSerializer.Common.TransmitMessage
+{
+    [UseSerializerFormatterAttribute<SerializerFormatter>]
+    public int Property1 { get; set; }
+}
+```
+
+It recommended to create own attribute and use it to mark property.
+```
+internal class SerializerFormatterAttribute : UseSerializerFormatterAttribute<SerializerFormatter> { }
+```
 ##### Serializer Validator
 
 Validators can check object property value and serialized value and throw exception if is not correct.
@@ -97,18 +126,41 @@ internal class SerializerValidator : ISerializerValidator<Message>
         throw new Exception();
     }
 }
+
 services.AddTextSerializer(options => options.AddSerializerValidator<SerializerValidator>());
 ```
 
 ##### Serializer Post Processors
 
+Serializer post processors is last place to change serialized message, it receive value e.g. <i><Value1|Value2|Value3></i>. 
+It is usable to calculate checksum and add to serialized message.
+
+
+Option 1
+```
+services.AddTextSerializer(options => options.AddDeserializerPreProcessor(text => ...));
+```
+
+Option 2
+```
+internal class SerializerPostProcessor : ISerializerPostProcessor
+{
+    public string Process(string text)
+    {
+        ...
+    }
+}
+
+services.AddTextSerializer(options => options.AddSerializerPostProcessor<SerializerPostProcessor>());
+```
+
 ##### Typed Serializer
 
 #### Deserialization
 
-##### Deserializer Post Processor
-
 ##### Deserializer Pre Processor
+
+##### Deserializer Post Processor
 
 ##### Message Id Provider
 
