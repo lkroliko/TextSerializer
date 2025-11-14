@@ -53,6 +53,8 @@ public class TextSerializerOptionsBuilder
         _services.AddSingleton<IDeserializerPreProcessorService, DeserializerPreProcessorService>();
         _services.AddSingleton<IDeserializerPreProcessorProvider, DeserializerPreProcessorProvider>();
         _services.AddSingleton<IValueConverter, EnumValueConverter>();
+        _services.AddSingleton<ISerializerValidatorProvider, SerializerValidatorProvider>();
+        _services.AddSingleton<ISerializerValidatorService, SerializerValidatorService>();
     }
 
     public TextSerializerOptionsBuilder AddDeserializerPostProcessor<T>() where T : class, IDeserializerPostProcessor
@@ -98,7 +100,7 @@ public class TextSerializerOptionsBuilder
     }
 
     /// <summary>
-    /// Ads IValueConverter<TType> for types bool, bool? decimal, decimal?, int, int?, string, TimeSpan, TimeOnly, DateTime
+    /// Ads IValueConverter<TType> for types bool, bool? decimal, decimal?, int, int?, string, TimeSpan, TimeOnly, TimeOnly?, DateTime, DateTime? DateOnly, DateOnly?
     /// </summary>
     public TextSerializerOptionsBuilder UseDefaultValueConverters()
     {
@@ -169,7 +171,7 @@ public class TextSerializerOptionsBuilder
         return this;
     }
 
-    public TextSerializerOptionsBuilder UseSerializationValidation()
+    public TextSerializerOptionsBuilder UseDefaultSerializationValidators()
     {
         _services.AddSingleton<ISerializerValidator, MandatorySerializerValidator>();
         _services.AddSingleton<ISerializerValidator, LengthSerializerValidation>();

@@ -1,11 +1,11 @@
 ﻿namespace MrRabbit.TextSerializer.Serialization.Services;
 internal class SerializerValidatorService : ISerializerValidatorService
 {
-    private List<(Type Type, ISerializerValidator Validator)> _validators = new();
+    private readonly ISerializerValidatorProvider _serializerValidatorProvider;
 
-    public SerializerValidatorService(IEnumerable<ISerializerValidator> validators)
+    public SerializerValidatorService(ISerializerValidatorProvider serializerValidatorProvider)
     {
-        validators.ToList().ForEach(v => _validators.Add(new(v.GetType().GetGenericInterfaceTypeArgument(typeof(ISerializerValidator<>), 0), v)));
+        _serializerValidatorProvider = serializerValidatorProvider;
     }
 
     public void Validate(SerializationContext context)
@@ -18,14 +18,8 @@ internal class SerializerValidatorService : ISerializerValidatorService
             }
         }
 
-        var searchType = context.ObjectType;
-        var validators = new List<ISerializerValidator>();
-        while (searchType is not null)
-        {
-            validators.AddRange(_validators.Where(v => v.Type == searchType).Select(v => v.Validator));
-            searchType = searchType.BaseType;
-        }
+        var validators = _serializerValidatorProvider.Get(context.ObjectType);
 
-        validators.ForEach(i => i.Validate(context));
+        validators.ToList().ForEach(i => i.Validate(context));
     }
 }

@@ -7,6 +7,7 @@ public class Validate
     private readonly ISerializerValidator<TransmitMessage> _validator1 = Mock.Of<ISerializerValidator<TransmitMessage>>();
     private readonly ISerializerValidator<TransmitMessage> _validator2 = Mock.Of<ISerializerValidator<TransmitMessage>>();
     private readonly ISerializerValidator<TestClass> _validator3 = Mock.Of<ISerializerValidator<TestClass>>();
+    private readonly ISerializerValidatorProvider _serializerValidatorProvider = Mock.Of<ISerializerValidatorProvider>();
     private readonly SerializerValidatorService _service;
     private readonly SerializationContext _context = A.SerializationContext.WithType(typeof(FakeTransmitMessage))
         .WithProperty()
@@ -14,7 +15,10 @@ public class Validate
 
     public Validate()
     {
-        _service = new(new ISerializerValidator[] { _validator1, _validator2, _validator3 });
+        _service = new(_serializerValidatorProvider);
+
+        Mock.Get(_serializerValidatorProvider).Setup(p => p.Get(_context.ObjectType)).Returns(new ISerializerValidator[] { _validator1, _validator2 });
+        Mock.Get(_serializerValidatorProvider).Setup(p => p.Get(_context.Properties.Last().Context!.ObjectType)).Returns(new ISerializerValidator[] { _validator3 });
     }
 
     [Fact]

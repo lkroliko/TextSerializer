@@ -9,14 +9,14 @@ It was designed for STX ETX protocols.
 #### Value converter
 
 Value converter is used to convert message property value to string and string to message property value. 
-You can add default converters which use .ToString() method to convert to string and [type].Parse(string value) method.
+To add default converters which use <i>.ToString()</i> method to convert to string and [type].Parse(string value) method use <i>UseDefaultValueConverters()</i> method when configuring.
 For implementation your format the are useless but for testing and see how library works are fine. 
 ``` 
 services.AddTextSerializer(options => options.UseDefaultValueConverters());
 ```
 
 To add value converter implement interface IValueConverter<TType> and add class on configuration.
-If you use nullable C# value types you need to add two value converters e.g. IValueConverter<int> and IValueConverter<int?>. 
+If messages contains nullable C# value types then is required to add two value converters e.g. IValueConverter<int> and IValueConverter<int?>. 
 ```
 internal class IntValueConverter : IValueConverter<int>
 {
@@ -81,6 +81,25 @@ Value of property will be converted by selected converter.
 
 ##### Serializer Validator
 
+Validators can check object property value and serialized value and throw exception if is not correct.
+To enable default validators which validating propertys with <i>Mandatory</i>, <i>MinLength</i> ,<i>MaxLength</i>, <i>FixedLength</i> attributes use <i>UseDefaultSerializationValidators()</i> method when configuring. 
+```
+services.AddTextSerializer(options => options.UseDefaultSerializationValidators());
+```
+
+To add custom validator implement interface ISerializerValidator<TType> where TType is context property or is Message type and add class on configuration.
+```
+internal class SerializerValidator : ISerializerValidator<Message>
+{
+    void Validate(SerializationContext context)
+    {
+        ...
+        throw new Exception();
+    }
+}
+services.AddTextSerializer(options => options.AddSerializerValidator<SerializerValidator>());
+```
+
 ##### Serializer Post Processors
 
 ##### Typed Serializer
@@ -94,7 +113,7 @@ Value of property will be converted by selected converter.
 ##### Message Id Provider
 
 Message id provider is required to determine type of destination object of deserialization. 
-It must by configured or implemented when you use Deserialize(string text) method on ITextSerializer.
+It must be configured or implemented to use Deserialize(string text) method on ITextSerializer.
 
 Option 1
 ``` 

@@ -25,9 +25,9 @@ internal class Serializer : ISerializer
     public string Serialize(TransmitMessage value)
     {
         var context = GetSerializationContext(value);
-        Validate(context);
         Serialize(context);
         Format(context);
+        Validate(context);
         RunPreProcess(context);
         var text = BuildText(context);
         return RunPostProcess(text);

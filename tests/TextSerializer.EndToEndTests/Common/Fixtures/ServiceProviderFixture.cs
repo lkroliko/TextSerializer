@@ -27,6 +27,7 @@ public class ServiceProviderFixture
 
         ServiceCollection.AddTextSerializer(options =>
             options.UseDefaultValueConverters()
+                .UseDefaultSerializationValidators()
                 .Configure(options =>
                 {
                     options.Prefix = TestConsts.Prefix;

@@ -24,7 +24,7 @@ internal class LengthSerializerValidation : ISerializerValidator<TransmitMessage
                 throw new TextSerializerException($"Property '{property.PropertyInfo.Name}' in '{context.ObjectType.Name}' have length of {property.SerializedValue.Length} but required minimal length is {property.PropertyInfo.MinLength.Value}.");
             if (property.PropertyInfo.MaxLength is not null && property.PropertyInfo.MaxLength.Value < property.SerializedValue!.Length)
                 throw new TextSerializerException($"Property '{property.PropertyInfo.Name}' in '{context.ObjectType.Name}' have length of {property.SerializedValue.Length} but maximal length is {property.PropertyInfo.MaxLength.Value}.");
-            if (property.PropertyInfo.FixedLength is not null && property.PropertyInfo.FixedLength.Value > property.SerializedValue!.Length)
+            if (property.PropertyInfo.FixedLength is not null && property.PropertyInfo.FixedLength.Value != property.SerializedValue!.Length)
                 throw new TextSerializerException($"Property '{property.PropertyInfo.Name}' in '{context.ObjectType.Name}' have length of {property.SerializedValue.Length} but required fixed length is {property.PropertyInfo.FixedLength.Value}.");
         }
     }
