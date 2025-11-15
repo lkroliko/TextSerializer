@@ -8,7 +8,7 @@ Example protocol requirements:
 3) special value representing type of message is always as first value in message (Represented by MessageId)
 4) message have checksum represented as "CRC""
 5) checksum is after last value and before message end character '>'
-6) checksum have character prefix '#'
+6) checksum have character '#' prefix 
 7) values are represented as text with the same format as .net .ToString method
 
 Valid message examples:
@@ -25,7 +25,7 @@ ServiceCollection.AddTextSerializer(options => ... );
 
 #### Protocol message format
 
-Configure 1, 2 protocol requirement.
+Configure 1st, 2nd protocol requirement.
 
 ```
     options.Configure(options =>
@@ -38,7 +38,7 @@ Configure 1, 2 protocol requirement.
 
 #### Message id
 
-Configure 3 protocol requirement.
+Configure 3rd protocol requirement.
 
 ```
     options.AddMessageIdProvider(text => text.TrimStart('<').Split('|')[0]);
@@ -46,7 +46,7 @@ Configure 3 protocol requirement.
 
 #### Checksum
 
-Configure 4, 5, 6 protocol requirement.
+Configure 4th, 5th, 6th protocol requirement.
 
 ```
     options.AddDeserializerPreProcessor(text => text.Replace("#CRC", string.Empty))
@@ -55,7 +55,7 @@ Configure 4, 5, 6 protocol requirement.
 
 #### Value converters
 
-Configure 7 protocol requirement.
+Configure 7th protocol requirement.
 
 ```
     options.UseDefaultValueConverters();

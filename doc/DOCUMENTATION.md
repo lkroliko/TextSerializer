@@ -69,11 +69,13 @@ If property is marked as Optional it will be visible in IPropertyInfo.IsOptional
 
 Change property position in property list. Helpful in base class of receive messages to set e.g. message id once.
 
-##### UseSerializerFormatterAttribute
+##### UseSerializerFormatterAttribute<T>
 
-##### UseValueConverterAttribute
+If property is marked with UseSerializerFormatterAttribute<T> where T is type of ISerializerFormatter then property will be formatted by this formatter. 
 
-Value of property will be converted by selected converter.
+##### UseValueConverterAttribute<T>
+
+If property is marked with UseValueConverterAttribute<T> where T is type of IValueConverter then property will be converted by this value converter. 
 
 #### Serialization
 
@@ -160,7 +162,42 @@ services.AddTextSerializer(options => options.AddSerializerPostProcessor<Seriali
 
 ##### Deserializer Pre Processor
 
+Deserializer pre processors is place to change text message, it receive value e.g. <i><Value1|Value2|Value3></i>. 
+It is usable to validate checksum and remove it from text.
+
+Option 1
+```
+services.AddTextSerializer(options => options.AddDeserializerPreProcessor(text => ...));
+```
+
+Option 2
+```
+internal class DeserializerPreProcessor : IDeserializerPreProcessor
+{
+    public string Process(string text)
+    {
+        ...
+    }
+}
+
+services.AddTextSerializer(options => options.AddDeserializerPreProcessor<DeserializerPreProcessor>());
+```
+
 ##### Deserializer Post Processor
+
+Deserializer post processors give access to deserialization context and deserialized object.
+
+```
+internal class DeserializerPostProcessor : IDeserializerPostProcessor
+{
+    public void Process(DeserializationContext context)
+    {
+        ...
+    }
+}
+
+services.AddTextSerializer(options => options.AddDeserializerPostProcessor<DeserializerPostProcessor>());
+```
 
 ##### Message Id Provider
 
