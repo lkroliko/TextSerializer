@@ -25,8 +25,8 @@ public class ServiceProviderFixture
             .CreateLogger();
         ServiceCollection.AddLogging(options => options.SetMinimumLevel(LogLevel.Debug).ClearProviders().AddSerilog());
 
-        ServiceCollection.AddTextSerializer(options =>
-            options.UseDefaultValueConverters()
+        ServiceCollection.AddTextSerializer(builder =>
+            builder.UseDefaultValueConverters()
                 .UseDefaultSerializationValidators()
                 .Configure(options =>
                 {

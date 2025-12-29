@@ -20,7 +20,7 @@ Valid message examples:
 Lets add text serializer to IoC and next we will configure options.
 
 ```
-ServiceCollection.AddTextSerializer(options => ... );
+ServiceCollection.AddTextSerializer(builder => ... );
 ```
 
 #### Protocol message format

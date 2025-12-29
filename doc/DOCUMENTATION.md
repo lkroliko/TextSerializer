@@ -12,7 +12,7 @@ Value converter is used to convert message property value to string and string t
 To add default converters which use <i>.ToString()</i> method to convert to string and [type].Parse(string value) method use <i>UseDefaultValueConverters()</i> method when configuring.
 For implementation your format the are useless but for testing and see how library works are fine. 
 ``` 
-services.AddTextSerializer(options => options.UseDefaultValueConverters());
+services.AddTextSerializer(builder => builder.UseDefaultValueConverters());
 ```
 
 To add value converter implement interface IValueConverter<TType> and add class on configuration.
@@ -32,7 +32,7 @@ internal class NullableIntValueConverter : IValueConverter<int?>
     public string Convert(object value) => value is null ? string.Empty : value.ToString()!;
 }
 
-services.AddTextSerializer(options => options.AddValueConverter<IntValueConverter>().AddValueConverter<NullableIntValueConverter>());
+services.AddTextSerializer(builder => builder.AddValueConverter<IntValueConverter>().AddValueConverter<NullableIntValueConverter>());
 ```
 
 #### Attributes
@@ -94,7 +94,7 @@ public class SerializerFormatter : ISerializerFormatter
     }
 }
 
-services.AddTextSerializer(options => options.AddSerializerFormatter<SerializerFormatter>());
+services.AddTextSerializer(builder => builder.AddSerializerFormatter<SerializerFormatter>());
 ```
 
 Mark property with <i>UseSerializerFormatter<T></i> attribute.
@@ -115,7 +115,7 @@ internal class SerializerFormatterAttribute : UseSerializerFormatterAttribute<Se
 Validators can check object property value and serialized value and throw exception if is not correct.
 To enable default validators which validating propertys with <i>Mandatory</i>, <i>MinLength</i> ,<i>MaxLength</i>, <i>FixedLength</i> attributes use <i>UseDefaultSerializationValidators()</i> method when configuring. 
 ```
-services.AddTextSerializer(options => options.UseDefaultSerializationValidators());
+services.AddTextSerializer(builder => builder.UseDefaultSerializationValidators());
 ```
 
 To add custom validator implement interface ISerializerValidator<TType> where TType is context property or is Message type and add class on configuration.
@@ -129,7 +129,7 @@ internal class SerializerValidator : ISerializerValidator<Message>
     }
 }
 
-services.AddTextSerializer(options => options.AddSerializerValidator<SerializerValidator>());
+services.AddTextSerializer(builder => builder.AddSerializerValidator<SerializerValidator>());
 ```
 
 ##### Serializer Post Processors
@@ -140,7 +140,7 @@ It is usable to calculate checksum and add to serialized message.
 
 Option 1
 ```
-services.AddTextSerializer(options => options.AddDeserializerPreProcessor(text => ...));
+services.AddTextSerializer(builder => builder.AddDeserializerPreProcessor(text => ...));
 ```
 
 Option 2
@@ -153,7 +153,7 @@ internal class SerializerPostProcessor : ISerializerPostProcessor
     }
 }
 
-services.AddTextSerializer(options => options.AddSerializerPostProcessor<SerializerPostProcessor>());
+services.AddTextSerializer(builder => builder.AddSerializerPostProcessor<SerializerPostProcessor>());
 ```
 
 ##### Typed Serializer
@@ -167,7 +167,7 @@ It is usable to validate checksum and remove it from text.
 
 Option 1
 ```
-services.AddTextSerializer(options => options.AddDeserializerPreProcessor(text => ...));
+services.AddTextSerializer(builder => builder.AddDeserializerPreProcessor(text => ...));
 ```
 
 Option 2
@@ -180,7 +180,7 @@ internal class DeserializerPreProcessor : IDeserializerPreProcessor
     }
 }
 
-services.AddTextSerializer(options => options.AddDeserializerPreProcessor<DeserializerPreProcessor>());
+services.AddTextSerializer(builder => builder.AddDeserializerPreProcessor<DeserializerPreProcessor>());
 ```
 
 ##### Deserializer Post Processor
@@ -196,7 +196,7 @@ internal class DeserializerPostProcessor : IDeserializerPostProcessor
     }
 }
 
-services.AddTextSerializer(options => options.AddDeserializerPostProcessor<DeserializerPostProcessor>());
+services.AddTextSerializer(builder => builder.AddDeserializerPostProcessor<DeserializerPostProcessor>());
 ```
 
 ##### Message Id Provider
@@ -206,7 +206,7 @@ It must be configured or implemented to use Deserialize(string text) method on I
 
 Option 1
 ``` 
-services.AddTextSerializer(options => options.AddMessageIdProvider(text => ...);
+services.AddTextSerializer(builder => builder.AddMessageIdProvider(text => ...);
 ```
 
 Option 2
@@ -216,7 +216,7 @@ internal class MessageIdProvider : IMessageIdProvider
     ...
 }
 
-services.AddTextSerializer(options => options.AddMessageIdProvider<MessageIdProvider>());
+services.AddTextSerializer(builder => builder.AddMessageIdProvider<MessageIdProvider>());
 ```
 
 ##### Typed Deserializer
