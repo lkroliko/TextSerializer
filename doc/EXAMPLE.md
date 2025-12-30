@@ -1,5 +1,16 @@
 ## TextSerializer STX ETX example
 
+### Service collection requirements
+
+Service colletion requirements:
+- enabled options 
+```
+ServiceCollection.AddOptions()
+```
+- enabled logger
+``` ServiceCollection.AddLogging();
+```
+
 ### Protocol
 
 Example protocol requirements:

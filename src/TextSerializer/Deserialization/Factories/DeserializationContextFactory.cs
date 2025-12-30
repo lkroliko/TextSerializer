@@ -23,7 +23,7 @@ internal class DeserializationContextFactory : IDeserializationContextFactory
     {
         var propertyValues = _textValueProvider.GetValues(text);
         var properties = _propertyInfoProvider.GetProperties(type);
-
+        //TODO trzeba dodać możliwość innego doasowania vartości do pól , teraz jest w kolejności klasy a trzeba zrobić dopasowanie po wartości np przedtostku wartości
         if (properties.Count() != propertyValues.Length)
             throw new TextSerializerException($"Unable create deserialization context for data to '{type.Name}'. Properties count not equal values count.");
 
