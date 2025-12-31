@@ -158,6 +158,23 @@ services.AddTextSerializer(builder => builder.AddSerializerPostProcessor<Seriali
 
 ##### Typed Serializer
 
+##### Text Builder
+
+By default serializer use all properties in serialized value separated by separator option.
+This behavior can by changed by implementing own <i>ITextBuilder<i>.
+
+```
+internal class TextBuilder :  ITextBuilder
+{
+    string Build(SerializationContext serializationObject)
+    {
+        ...
+    }
+}
+
+services.UseTextBuilder<TextBuilder>();
+```
+
 #### Deserialization
 
 ##### Deserializer Pre Processor

@@ -1,4 +1,5 @@
 ﻿namespace MrRabbit.TextSerializer.Deserialization.TypedDeserializers;
+
 internal class ReceiveMessageTypedDeserializer : ITypedDeserializer<ReceiveMessage>
 {
     private readonly IValueConverterProvider _valueConverterProvider;
@@ -19,10 +20,6 @@ internal class ReceiveMessageTypedDeserializer : ITypedDeserializer<ReceiveMessa
             return;
 
         var valueConverter = _valueConverterProvider.Get(property.PropertyInfo);
-
-        var value = property.Value;
-        if (property.PropertyInfo.PreValueConverter != null)
-            value = property.PropertyInfo.PreValueConverter.Invoke(value);
-        property.DeserializedValue = valueConverter.Convert(value);
+        property.DeserializedValue = valueConverter.Convert(property.Value);
     }
 }

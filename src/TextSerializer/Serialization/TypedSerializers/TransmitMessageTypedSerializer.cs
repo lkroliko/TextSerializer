@@ -20,9 +20,6 @@ internal class TransmitMessageTypedSerializer : ITypedSerializer<TransmitMessage
             return;
 
         var valueConverter = _valueConverterProvider.Get(property.PropertyInfo);
-        var value = valueConverter.Convert(property.Value);
-        if (property.PropertyInfo.PostValueConverter != null)
-            value = property.PropertyInfo.PostValueConverter.Invoke(value);
-        property.SerializedValue = value;
+        property.SerializedValue = valueConverter.Convert(property.Value);
     }
 }

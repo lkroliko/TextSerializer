@@ -193,24 +193,24 @@ public class TextSerializerOptionsBuilder
         return this;
     }
 
-    public TextSerializerOptionsBuilder AddDeserializationPropertyFactory<T>() where T : class, IDeserializationPropertyFactory
+    public TextSerializerOptionsBuilder UseDeserializationPropertyFactory<T>() where T : class, IDeserializationPropertyFactory
     {
         _services.RemoveAll<IDeserializationPropertyFactory>();
         _services.AddSingleton<IDeserializationPropertyFactory, T>();
         return this;
     }
 
-    public TextSerializerOptionsBuilder AddTextBuilder<T>() where T : class, ITextBuilder
+    public TextSerializerOptionsBuilder UseTextBuilder<T>() where T : class, ITextBuilder
     {
         _services.RemoveAll<ITextBuilder>();
         _services.AddSingleton<ITextBuilder, T>();
         return this;
     }
 
-    public TextSerializerOptionsBuilder AddCustomizations(Assembly assembly)
-    {
-        //TODO write this
-        throw new NotImplementedException();
-        return this;
-    }
+    //public TextSerializerOptionsBuilder AddCustomizations(Assembly assembly)
+    //{
+    //    //TODO write this
+    //    throw new NotImplementedException();
+    //    return this;
+    //}
 }

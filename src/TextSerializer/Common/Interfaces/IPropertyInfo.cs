@@ -27,7 +27,4 @@ public interface IPropertyInfo
 
     IEnumerable<Type> SerializationFormatterTypes { get; }
     Type? ValueConverterType { get; }
-
-    Func<string, string>? PreValueConverter { get; }
-    Func<string, string>? PostValueConverter { get; }
 }

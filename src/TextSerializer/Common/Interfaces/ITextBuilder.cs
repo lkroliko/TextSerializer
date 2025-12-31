@@ -1,6 +1,6 @@
 ﻿namespace MrRabbit.TextSerializer.Common.Interfaces;
 
-public interface ITextBuilder //TODO add to doc
+public interface ITextBuilder
 {
     string Build(SerializationContext serializationObject);
 }

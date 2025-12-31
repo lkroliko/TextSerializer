@@ -26,9 +26,6 @@ internal class PropertyInfo : IPropertyInfo
     public IEnumerable<Type> SerializationFormatterTypes { get; }
     public Type? ValueConverterType { get; }
 
-    public Func<string, string>? PreValueConverter { get; }
-    public Func<string, string>? PostValueConverter { get; }
-
     public PropertyInfo(System.Reflection.PropertyInfo propertyInfo)
     {
         _propertyInfo = propertyInfo;
@@ -50,9 +47,6 @@ internal class PropertyInfo : IPropertyInfo
 
         SerializationFormatterTypes = _propertyInfo.GetCustomAttributes<UseSerializerFormatterAttribute>().Select(a => a.GetType().GetNestedGenericType(typeof(UseSerializerFormatterAttribute<>)).GetGenericArguments()[0]).ToList();
         ValueConverterType = _propertyInfo.GetCustomAttribute<UseValueConverterAttribute>()?.GetType().GetNestedGenericType(typeof(UseValueConverterAttribute<>)).GetGenericArguments()[0];
-
-        PreValueConverter = _propertyInfo.GetCustomAttribute<PreValueConverterAttribute>()?.Pre;
-        PostValueConverter = _propertyInfo.GetCustomAttribute<PostValueConverterAttribute>()?.Post;
     }
 
     public object? GetValue(object? obj) => _propertyInfo.GetValue(obj);
