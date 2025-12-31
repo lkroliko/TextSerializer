@@ -26,10 +26,6 @@ internal class DeserializationContextFactory : IDeserializationContextFactory
     {
         var propertyValues = _textValueProvider.GetValues(text);
         var properties = _propertyInfoProvider.GetProperties(type);
-        //TODO mozna inaczej pola mapować więc sprawdzanie ilości pól jest zbędne
-        //if (properties.Count() != propertyValues.Length)
-        //    throw new TextSerializerException($"Unable create deserialization context for data to '{type.Name}'. Properties count not equal values count.");
-
         var targetObject = _objectFactory.Get(type);
         var deserializationProperties = GetDeserializationProperties(properties, propertyValues, targetObject!);
 
@@ -41,12 +37,11 @@ internal class DeserializationContextFactory : IDeserializationContextFactory
 
     private DeserializationContext BuildForObject(IPropertyInfo propertyInfo, object parentObject, object? targetObject, string propertyValue)
     {
-
         if (targetObject is null)
         {
             targetObject = _objectFactory.Get(propertyInfo.PropertyType);
         }
-        // throw new TextSerializerException("Unable to build deserialization context for null target object.");
+
         var properties = _propertyInfoProvider.GetProperties(targetObject);
         var deserializationProperties = GetDeserializationProperties(properties, propertyValue, targetObject);
         return new DeserializationContext(deserializationProperties, propertyValue, targetObject);

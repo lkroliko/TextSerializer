@@ -2,7 +2,7 @@
 
 namespace MrRabbit.TextSerializer.Deserialization.Factories;
 
-internal class ReceiveMessageFactory : IReceiveMessageFactory//TODO it is provider of type message
+internal class ReceiveMessageFactory : IReceiveMessageFactory
 {
     private readonly Dictionary<string, Type> _messageTypes;
     private readonly IObjectFactory _objectFactory;

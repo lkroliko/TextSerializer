@@ -206,11 +206,4 @@ public class TextSerializerOptionsBuilder
         _services.AddSingleton<ITextBuilder, T>();
         return this;
     }
-
-    //public TextSerializerOptionsBuilder AddCustomizations(Assembly assembly)
-    //{
-    //    //TODO write this
-    //    throw new NotImplementedException();
-    //    return this;
-    //}
 }

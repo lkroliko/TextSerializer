@@ -4,7 +4,7 @@ public interface ITextSerializer
 {
     string Serialize(TransmitMessage value);
     ReceiveMessage Deserialize(string text);
-    ReceiveMessage Deserialize<TReceiveMessage>(string text) where TReceiveMessage : ReceiveMessage;//TODO powinna zwracać TReceiveMessage
+    TReceiveMessage Deserialize<TReceiveMessage>(string text) where TReceiveMessage : ReceiveMessage;
 
     ReceiveMessage Deserialize(Type type, string text);
 }

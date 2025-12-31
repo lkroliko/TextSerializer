@@ -14,7 +14,7 @@ internal class TextSerializer : ITextSerializer
 
     public ReceiveMessage Deserialize(string text) => _deserializer.Deserialize(text);
 
-    public ReceiveMessage Deserialize<TReceiveMessage>(string text) where TReceiveMessage : ReceiveMessage => _deserializer.Deserialize(typeof(TReceiveMessage), text);
+    public TReceiveMessage Deserialize<TReceiveMessage>(string text) where TReceiveMessage : ReceiveMessage => (TReceiveMessage)_deserializer.Deserialize(typeof(TReceiveMessage), text);
 
     public ReceiveMessage Deserialize(Type type, string text) => _deserializer.Deserialize(type, text);
 
