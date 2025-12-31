@@ -5,11 +5,11 @@ namespace MrRabbit.TextSerializer.UnitTests.Serialization.Services.TextBuilderSe
 public class Get
 {
     private readonly IOptions<TextSerializerOptions> _options = A.Moq.TextSerializerOptions;
-    private readonly TextBuilderService _factory;
+    private readonly TextBuilder _factory;
 
     public Get()
     {
-        _factory = new TextBuilderService(_options);
+        _factory = new TextBuilder(_options);
     }
 
     [Theory]

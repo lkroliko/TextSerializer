@@ -7,11 +7,11 @@ internal class Serializer : ISerializer
     private readonly ISerializerValidatorService _serializerValidator;
     private readonly ISerializerFormatterService _serializerFormatter;
     private readonly ISerializationContextFactory _serializationContextFactory;
-    private readonly ITextBuilderService _textBuilder;
+    private readonly ITextBuilder _textBuilder;
 
 
     public Serializer(ISerializerService serializer, ISerializerPreProcessorService serializerPreProcessor, ISerializerPostProcessorService serializerPostProcessor, ISerializerValidatorService serializerValidator,
-        ISerializerFormatterService serializationFormatter, ISerializationContextFactory serializationContextFactory, ITextBuilderService textBuilderService)
+        ISerializerFormatterService serializationFormatter, ISerializationContextFactory serializationContextFactory, ITextBuilder textBuilderService)
     {
         _serializer = serializer;
         _serializerPreProcessor = serializerPreProcessor;

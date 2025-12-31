@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 
 namespace MrRabbit.TextSerializer.Deserialization.Factories;
+
 internal class ReceiveMessageFactory : IReceiveMessageFactory//TODO it is provider of type message
 {
     private readonly Dictionary<string, Type> _messageTypes;
@@ -27,6 +28,9 @@ internal class ReceiveMessageFactory : IReceiveMessageFactory//TODO it is provid
 
         return new ReceiveMessageFactory(dictionary, messageObjectFactory);
     }
+
+    internal static ReceiveMessageFactory Create(IObjectFactory messageObjectFactory) =>
+        new ReceiveMessageFactory([], messageObjectFactory);
 
     public ReceiveMessage Get(string messageId)
     {

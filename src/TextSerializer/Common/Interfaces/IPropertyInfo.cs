@@ -14,6 +14,8 @@ public interface IPropertyInfo
     object? GetValue(object? obj);
     void SetValue(object? obj, object? value);
 
+    T? GetCustomAttribute<T>() where T : Attribute;
+
     bool IsContextProperty { get; }
     bool IsMandatory { get; }
     bool IsOptional { get; }

@@ -15,7 +15,7 @@ public class Serialize
     private readonly ISerializerValidatorService _serializerValidatorService = Mock.Of<ISerializerValidatorService>();
     private readonly ISerializationContextFactory _serializationContextFactory = Mock.Of<ISerializationContextFactory>();
     private readonly ISerializerFormatterService _serializerFormatterService = Mock.Of<ISerializerFormatterService>();
-    private readonly ITextBuilderService _textBuilderFactory = Mock.Of<ITextBuilderService>();
+    private readonly ITextBuilder _textBuilderFactory = Mock.Of<ITextBuilder>();
     private readonly Serializer _serializer;
     private readonly FakeTransmitMessage _transmitMessage = new();
     private readonly SerializationContext _context = A.SerializationContext.WithType(typeof(FakeTransmitMessage))

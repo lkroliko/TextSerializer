@@ -57,4 +57,6 @@ internal class PropertyInfo : IPropertyInfo
 
     public object? GetValue(object? obj) => _propertyInfo.GetValue(obj);
     public void SetValue(object? obj, object? value) => _propertyInfo.SetValue(obj, value);
+
+    public T? GetCustomAttribute<T>() where T : Attribute => _propertyInfo.GetCustomAttribute<T>();
 }

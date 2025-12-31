@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using MrRabbit.TextSerializer.Common.ValueConverters;
 using MrRabbit.TextSerializer.Deserialization.Factories;
 using MrRabbit.TextSerializer.Deserialization.PreProcessor;
@@ -22,6 +23,14 @@ public class TextSerializerOptionsBuilder
     internal TextSerializerOptionsBuilder(IServiceCollection services)
     {
         _services = services;
+
+        _services.AddSingleton<IDeserializationPropertyFactory, DeserializationPropertyFactory>();
+        _services.AddSingleton<IReceiveMessageFactory>(services =>
+        {
+            var objectFactory = services.GetRequiredService<IObjectFactory>();
+            return ReceiveMessageFactory.Create(objectFactory);
+        });
+        _services.AddSingleton<ITextBuilder, TextBuilder>();
     }
 
     internal void Build()
@@ -40,7 +49,6 @@ public class TextSerializerOptionsBuilder
         _services.AddSingleton<ISerializerPostProcessorService, SerializerPostProcessorService>();
         _services.AddSingleton<ISerializerService, SerializerService>();
         _services.AddSingleton<ISerializerValidatorService, SerializerValidatorService>();
-        _services.AddSingleton<ITextBuilderService, TextBuilderService>();
         _services.AddSingleton<ITextSerializer, TextSerializer>();
         _services.AddSingleton<ITypedDeserializer, ReceiveMessageTypedDeserializer>();
         _services.AddSingleton<ITypedDeserializerProvider, TypedDeserializerProvider>();
@@ -145,6 +153,7 @@ public class TextSerializerOptionsBuilder
 
     public TextSerializerOptionsBuilder RegisterReceiveMessages(Assembly assembly)
     {
+        _services.RemoveAll<IReceiveMessageFactory>();
         _services.AddSingleton<IReceiveMessageFactory>(services =>
         {
             var objectFactory = services.GetRequiredService<IObjectFactory>();
@@ -181,6 +190,20 @@ public class TextSerializerOptionsBuilder
     public TextSerializerOptionsBuilder AddSerializerFormatter<T>() where T : class, ISerializerFormatter
     {
         _services.AddSingleton<ISerializerFormatter, T>();
+        return this;
+    }
+
+    public TextSerializerOptionsBuilder AddDeserializationPropertyFactory<T>() where T : class, IDeserializationPropertyFactory
+    {
+        _services.RemoveAll<IDeserializationPropertyFactory>();
+        _services.AddSingleton<IDeserializationPropertyFactory, T>();
+        return this;
+    }
+
+    public TextSerializerOptionsBuilder AddTextBuilder<T>() where T : class, ITextBuilder
+    {
+        _services.RemoveAll<ITextBuilder>();
+        _services.AddSingleton<ITextBuilder, T>();
         return this;
     }
 

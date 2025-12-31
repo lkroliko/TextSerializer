@@ -1,9 +1,9 @@
 ﻿namespace MrRabbit.TextSerializer.Serialization.Services;
-internal class TextBuilderService : ITextBuilderService
+internal class TextBuilder : ITextBuilder
 {
     private readonly IOptions<TextSerializerOptions> _options;
 
-    public TextBuilderService(IOptions<TextSerializerOptions> options)
+    public TextBuilder(IOptions<TextSerializerOptions> options)
     {
         _options = options;
     }
