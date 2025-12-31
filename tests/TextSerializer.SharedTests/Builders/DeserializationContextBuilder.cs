@@ -1,11 +1,14 @@
-﻿namespace MrRabbit.TextSerializer.SharedTests.Builders;
+﻿using MrRabbit.TextSerializer.SharedTests.Fakes;
+
+namespace MrRabbit.TextSerializer.SharedTests.Builders;
+
 public class DeserializationContextBuilder
 {
     private string? _value;
     private List<DeserializationProperty> _properties = new();
-    private object _targetObject = new object();
+    private object _targetObject = new FakeReceiveMessage();
 
-    internal DeserializationContextBuilder WithValue(string value)
+    public DeserializationContextBuilder WithValue(string value)
     {
         _value = value;
         return this;
@@ -17,7 +20,7 @@ public class DeserializationContextBuilder
         return this;
     }
 
-    internal DeserializationContextBuilder WithTargetObject(object targetObject)
+    public DeserializationContextBuilder WithTargetObject(object targetObject)
     {
         _targetObject = targetObject;
         return this;

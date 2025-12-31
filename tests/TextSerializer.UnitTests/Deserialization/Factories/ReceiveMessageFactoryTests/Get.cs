@@ -1,6 +1,7 @@
 ﻿using MrRabbit.TextSerializer.Deserialization.Factories;
 
 namespace MrRabbit.TextSerializer.UnitTests.Deserialization.Factories.ReceiveMessageFactoryTests;
+
 [Trait("Category", "ReceiveMessageFactory")]
 public class Get
 {
@@ -24,22 +25,6 @@ public class Get
 
         result.Should().NotBeNull();
         result.Should().BeOfType<FakeReceiveMessageWithValueObject>();
-    }
-
-    [Fact]
-    public void WhenCalledThenInstanceWithInstanceValueObjectReturned()
-    {
-        Mock.Get(_objectFactory).Setup(f => f.Get(It.IsAny<Type>())).Returns(new FakeReceiveMessageWithValueObject())
-            .Callback(() =>
-            {
-                Mock.Get(_objectFactory).Setup(f => f.Get(It.IsAny<Type>())).Returns(new ValueObject());
-            });
-
-        var result = _factory.Get(FakeReceiveMessageWithValueObjectMessageId);
-
-        result.Should().NotBeNull();
-        result.Should().BeOfType<FakeReceiveMessageWithValueObject>();
-        result.As<FakeReceiveMessageWithValueObject>().ValueObject.Should().NotBeNull();
     }
 
     [Fact]

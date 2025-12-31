@@ -2,13 +2,10 @@
 using MrRabbit.TextSerializer.Serialization.Services;
 
 namespace MrRabbit.TextSerializer.UnitTests.Serialization.Services.SerializerTests;
+
 [Trait("Category", "Serializer")]
 public class Serialize
 {
-    private readonly ITypedSerializerProvider _serializerProvider = Mock.Of<ITypedSerializerProvider>();
-    private readonly ISerializerValidatorService _validator = Mock.Of<ISerializerValidatorService>();
-    private readonly ISerializerFormatterService _formatter = Mock.Of<ISerializerFormatterService>();
-    private readonly ISerializationContextFactory _contextFactory = Mock.Of<ISerializationContextFactory>();
     private readonly ISerializerService _serializerService = Mock.Of<ISerializerService>();
     private readonly ISerializerPreProcessorService _serializerPreProcessorService = Mock.Of<ISerializerPreProcessorService>();
     private readonly ISerializerPostProcessorService _serializerPostProcessorService = Mock.Of<ISerializerPostProcessorService>();
@@ -28,9 +25,7 @@ public class Serialize
     {
         _serializer = new(_serializerService, _serializerPreProcessorService, _serializerPostProcessorService, _serializerValidatorService, _serializerFormatterService, _serializationContextFactory, _textBuilderFactory);
 
-        Mock.Get(_contextFactory).Setup(s => s.Get(_transmitMessage)).Returns(_context);
-        Mock.Get(_serializerProvider).Setup(p => p.Get(_context.ObjectType)).Returns(_fakeTransmitMessageSerializer);
-        Mock.Get(_serializerProvider).Setup(p => p.Get(_context.Properties.First().Context!.ObjectType)).Returns(_testClassSerializer);
+        Mock.Get(_serializationContextFactory).Setup(s => s.Get(_transmitMessage)).Returns(_context);
         Mock.Get(_textBuilderFactory).Setup(f => f.Build(_context)).Returns(_text);
     }
 
@@ -39,7 +34,7 @@ public class Serialize
     {
         _serializer.Serialize(_transmitMessage);
 
-        Mock.Get(_contextFactory).Verify(f => f.Get(_transmitMessage), Times.Once);
+        Mock.Get(_serializationContextFactory).Verify(f => f.Get(_transmitMessage), Times.Once);
     }
 
     [Fact]
@@ -47,16 +42,7 @@ public class Serialize
     {
         _serializer.Serialize(_transmitMessage);
 
-        Mock.Get(_validator).Verify(v => v.Validate(_context), Times.Once);
-    }
-
-    [Fact]
-    public void WhenCalledThenTypedSerializersSerializeCalled()
-    {
-        _serializer.Serialize(_transmitMessage);
-
-        Mock.Get(_fakeTransmitMessageSerializer).Verify(s => s.Serialize(_context), Times.Once);
-        Mock.Get(_testClassSerializer).Verify(s => s.Serialize(_context.Properties.First().Context!), Times.Once);
+        Mock.Get(_serializerValidatorService).Verify(v => v.Validate(_context), Times.Once);
     }
 
     [Fact]
@@ -64,7 +50,7 @@ public class Serialize
     {
         _serializer.Serialize(_transmitMessage);
 
-        Mock.Get(_formatter).Verify(f => f.Format(_context), Times.Once);
+        Mock.Get(_serializerFormatterService).Verify(f => f.Format(_context), Times.Once);
     }
 
     [Fact]

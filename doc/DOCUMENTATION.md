@@ -237,3 +237,20 @@ services.AddTextSerializer(builder => builder.AddMessageIdProvider<MessageIdProv
 ```
 
 ##### Typed Deserializer
+
+##### Deserialization property factory
+
+By default deserializer set properties in order with values separeted by separator option.
+This behavior can by changed by implementing own <i>IDeserializationPropertyFactory<i>.
+
+```
+internal class DeserializationPropertyFactory : IDeserializationPropertyFactory
+{
+    DeserializationProperty Get(int index, IPropertyInfo propertyInfo, string[] propertyValues, object tarbetObject, IDeserializationContextFactory contextFactory)
+    {
+        ...
+    }
+}
+
+services.UseDeserializationPropertyFactory<DeserializationPropertyFactory>();
+```

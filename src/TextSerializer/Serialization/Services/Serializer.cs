@@ -1,4 +1,5 @@
 ﻿namespace MrRabbit.TextSerializer.Serialization.Services;
+
 internal class Serializer : ISerializer
 {
     private readonly ISerializerService _serializer;
@@ -45,5 +46,5 @@ internal class Serializer : ISerializer
 
     private string BuildText(SerializationContext context) => _textBuilder.Build(context);
 
-    private SerializationContext GetSerializationContext(object value) => _serializationContextFactory.Get(value);
+    private SerializationContext GetSerializationContext(TransmitMessage value) => _serializationContextFactory.Get(value);
 }

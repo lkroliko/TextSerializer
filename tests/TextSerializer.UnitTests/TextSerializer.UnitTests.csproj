@@ -26,10 +26,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Serialization\Factories\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\src\TextSerializer\TextSerializer.csproj" />
     <ProjectReference Include="..\TextSerializer.SharedTests\TextSerializer.SharedTests.csproj" />
   </ItemGroup>

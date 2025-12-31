@@ -1,4 +1,5 @@
 ﻿namespace MrRabbit.TextSerializer.Serialization.Factories;
+
 internal class SerializationContextFactory : ISerializationContextFactory
 {
     private readonly IPropertyInfoProvider _propertyInfoProvider;

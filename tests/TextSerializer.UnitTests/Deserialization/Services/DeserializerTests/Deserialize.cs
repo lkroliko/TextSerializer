@@ -1,6 +1,7 @@
 ﻿using MrRabbit.TextSerializer.Deserialization.Services;
 
 namespace MrRabbit.TextSerializer.UnitTests.Deserialization.Services.DeserializerTests;
+
 [Trait("Category", "Deserializer")]
 public class Deserialize
 {
@@ -16,13 +17,15 @@ public class Deserialize
     private readonly string _text = $"<123>";
     private readonly Type _messageType = typeof(FakeReceiveMessage);
     private readonly FakeReceiveMessage _message = new();
-    private readonly DeserializationContext _context = A.DeserializationContext;
+    private readonly DeserializationContext _context;
 
     public Deserialize()
     {
         _deserializer = new(_messageFactory, _typedDeserializerProvider, _deserializerPreProcessorService, _deserializerPostProcessorService, _contextFactory, _messageIdProvider);
 
-        Mock.Get(_messageFactory).Setup(f => f.Get(_messageId)).Returns(_message);
+        _context = A.DeserializationContext.WithTargetObject(_message);
+
+        Mock.Get(_messageFactory).Setup(f => f.GetType(_messageId)).Returns(_messageType);
         Mock.Get(_messageIdProvider).Setup(p => p.TryGetMessageId(_text, out _messageId)).Returns(true);
         Mock.Get(_deserializerPreProcessorService).Setup(s => s.Run(_text)).Returns(_text);
         Mock.Get(_contextFactory).Setup(f => f.Get(_messageType, _text)).Returns(_context);

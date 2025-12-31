@@ -1,12 +1,14 @@
 ﻿//using MrRabbit.TextSerializer.Deserialization.Factories;
 
 //namespace MrRabbit.TextSerializer.UnitTests.Deserialization.Factories.DeserializationContextFactoryTests;
+
 //[Trait("Category", "DeserializationContextFactory")]
 //public class GetForValueObjectObject
 //{
 //    private readonly IPropertyInfoProvider _propertyInfoProvider = Mock.Of<IPropertyInfoProvider>();
 //    private readonly ITextValueProvider _textValueProvider = Mock.Of<ITextValueProvider>();
 //    private readonly IObjectFactory _objectFactory = Mock.Of<IObjectFactory>();
+//    private readonly IDeserializationPropertyFactory _propertyFactory = Mock.Of<IDeserializationPropertyFactory>();
 //    private readonly DeserializationContextFactory _factory;
 //    private readonly string _propertyValue = "Value";
 //    private readonly string[] _values = new[] { "Value" };
@@ -14,28 +16,31 @@
 
 //    public GetForValueObjectObject()
 //    {
-//        _factory = new(_propertyInfoProvider, _textValueProvider, _objectFactory);
+//        _factory = new(_propertyInfoProvider, _textValueProvider, _objectFactory, _propertyFactory);
 
 //        Mock.Get(_propertyInfoProvider).Setup(p => p.GetProperties(It.IsAny<object>())).Returns(() => _propertyInfos);
 //        Mock.Get(_textValueProvider).Setup(p => p.GetValues(_propertyValue)).Returns(() => _values);
+
 //    }
 
 //    [Fact]
 //    public void WhenGivenSimpleObjectThenDeserializationContextIsValid()
 //    {
 //        var deserializationObject = new SimpleTestClass();
-//        var _propertyInfo1 = Mock.Of<IPropertyInfo>();
-//        var _propertyInfo2 = Mock.Of<IPropertyInfo>();
-//        _propertyInfos.Add(_propertyInfo1);
-//        _propertyInfos.Add(_propertyInfo2);
+//        var propertyInfo1 = Mock.Of<IPropertyInfo>();
+//        var propertyInfo2 = Mock.Of<IPropertyInfo>();
+//        _propertyInfos.Add(propertyInfo1);
+//        _propertyInfos.Add(propertyInfo2);
+//        property
+//        Mock.Get(_propertyFactory).Setup(f => f.Get(1, propertyInfo1, _values, deserializationObject, _factory));
 
 //        var result = _factory.GetForValueObject(deserializationObject, _propertyValue);
 
 //        result.Value.Should().Be(_propertyValue);
-//        result.Properties[0].PropertyInfo.Should().Be(_propertyInfo1);
+//        result.Properties[0].PropertyInfo.Should().Be(propertyInfo1);
 //        result.Properties[0].Value.Should().Be("Value");
 //        result.Properties[0].TargetObject.Should().Be(deserializationObject);
-//        result.Properties[1].PropertyInfo.Should().Be(_propertyInfo2);
+//        result.Properties[1].PropertyInfo.Should().Be(propertyInfo2);
 //        result.Properties[1].Value.Should().Be("Value");
 //        result.Properties[1].TargetObject.Should().Be(deserializationObject);
 //    }
@@ -103,5 +108,3 @@
 //        public List<SimpleTestClass> Property1 { get; set; } = new();
 //    }
 //}
-
-//TODO to fix
