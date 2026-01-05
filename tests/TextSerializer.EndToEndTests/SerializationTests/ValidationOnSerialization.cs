@@ -79,6 +79,18 @@ public class ValidationOnSerialization : IClassFixture<ServiceProviderFixture>
                 MinLengthProperty= 1234,//invalid
             }
         },
+        {
+            new()
+            {
+                MandatoryProperty = A.Fixture.Create<String>(),
+                OptionalProperty = null,
+                ConditionalProperty = null,
+                FixedLengthProperty = 12345,
+                MaxLengthProperty = 12345,
+                MinLengthProperty= 123456,
+                OptionalWithMaxLength = "123",//invalid
+            }
+        },
     };
 
     [Theory]
@@ -125,6 +137,18 @@ public class ValidationOnSerialization : IClassFixture<ServiceProviderFixture>
                 MinLengthProperty= 123456,
             }
         },
+        {
+            new()
+            {
+                MandatoryProperty = A.Fixture.Create<String>(),
+                OptionalProperty = null,
+                ConditionalProperty = null,
+                FixedLengthProperty = 12345,
+                MaxLengthProperty = 12345,
+                MinLengthProperty= 123456,
+                OptionalWithMaxLength = "12",
+            }
+        },
     };
 
     public class TestTransmitMessage : TransmitMessage
@@ -145,5 +169,9 @@ public class ValidationOnSerialization : IClassFixture<ServiceProviderFixture>
 
         [MaxLength(5)]
         public int MaxLengthProperty { get; set; } = default!;
+
+        [Optional]
+        [MaxLength(2)]
+        public string? OptionalWithMaxLength { get; set; }
     }
 }

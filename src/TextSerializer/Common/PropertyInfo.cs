@@ -14,7 +14,7 @@ internal class PropertyInfo : IPropertyInfo
     public bool IsNullableType => UnderlyingNullableType is not null;
     public Type? UnderlyingNullableType { get; }
     public bool IsCollection => _propertyInfo.PropertyType.IsAssignableTo(typeof(ICollection));
-    public bool IsEnum => _propertyInfo.PropertyType.IsEnum;
+    public bool IsEnum => _propertyInfo.PropertyType.IsEnum || (UnderlyingNullableType is not null && UnderlyingNullableType.IsEnum);
 
     public bool IsMandatory => IsOptional == false && IsConditional == false;
     public bool IsOptional { get; }

@@ -61,6 +61,7 @@ public class TextSerializerOptionsBuilder
         _services.AddSingleton<IDeserializerPreProcessorService, DeserializerPreProcessorService>();
         _services.AddSingleton<IDeserializerPreProcessorProvider, DeserializerPreProcessorProvider>();
         _services.AddSingleton<IValueConverter, EnumValueConverter>();
+        _services.AddSingleton<IValueConverter, NullableEnumValueConverter>();
         _services.AddSingleton<ISerializerValidatorProvider, SerializerValidatorProvider>();
         _services.AddSingleton<ISerializerValidatorService, SerializerValidatorService>();
     }

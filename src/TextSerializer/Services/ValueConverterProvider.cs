@@ -42,8 +42,10 @@ internal class ValueConverterProvider : IValueConverterProvider
             return GetByValueConverterType(propertyInfo.ValueConverterType);
         if (_valueConvertersByTypeToConvert.ContainsKey(propertyInfo.PropertyType))
             return _valueConvertersByTypeToConvert[propertyInfo.PropertyType];
-        if (propertyInfo.IsEnum)
+        if (propertyInfo.IsEnum && propertyInfo.IsNullableType == false)
             return _valueConvertersByConverterType[(typeof(EnumValueConverter))];
+        if (propertyInfo.IsEnum && propertyInfo.IsNullableType)
+            return _valueConvertersByConverterType[(typeof(NullableEnumValueConverter))];
 
         throw new TextSerializerException($"No implemented 'IValueConverter<{propertyInfo.PropertyType.Name}>'.");
     }

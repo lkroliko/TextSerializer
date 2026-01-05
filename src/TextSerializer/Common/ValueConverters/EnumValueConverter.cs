@@ -1,5 +1,6 @@
 ﻿namespace MrRabbit.TextSerializer.Common.ValueConverters;
-public class EnumValueConverter : IValueConverter
+
+internal class EnumValueConverter : IValueConverter
 {
     public object Convert(string value) => int.Parse(value);
 
