@@ -1,28 +1,28 @@
-﻿//using MrRabbit.TextSerializer.Serialization.Providers;
+﻿using Microsoft.Extensions.Logging;
+using MrRabbit.TextSerializer.Serialization.Providers;
 
-//namespace MrRabbit.TextSerializer.UnitTests.Serialization.Providers.SerializerFormatterProviderTests;
-//[Trait("Category", "SerializerFormatterProvider")]
-//public class Get
-//{
-//    private readonly ISerializerFormatter<int> _formatter1 = Mock.Of<ISerializerFormatter<int>>();
-//    private readonly ISerializerFormatter<int> _formatter2 = Mock.Of<ISerializerFormatter<int>>();
-//    private readonly SerializerFormatterProvider _provider;
-//    private readonly SerializationProperty _property = A.SerializationProperty.WithValue(12);
+namespace MrRabbit.TextSerializer.UnitTests.Serialization.Providers.SerializerFormatterProviderTests;
 
-//    public Get()
-//    {
-//        _provider = new(new[] { _formatter1, _formatter2 });
-//    }
+[Trait("Category", nameof(SerializerFormatterProvider))]
+public class Get
+{
+    private readonly ISerializerFormatter _formatter1 = Mock.Of<ISerializerFormatter>();
+    private readonly FakeSerializerFormatter _fakeFormatter = new();
+    private readonly ISerializerFormatter _formatter2 = Mock.Of<ISerializerFormatter>();
 
-//    [Fact]
-//    public void WhenCalledThenFormatersReturned()
-//    {
-//        var result = _provider.Get(_property.Value!.GetType());
+    private readonly ILogger<SerializerFormatterProvider> _logger = Mock.Of<ILogger<SerializerFormatterProvider>>();
+    private readonly SerializerFormatterProvider _provider;
 
-//        result.Should().HaveCount(2);
-//        result.Should().Contain(_formatter1);
-//        result.Should().Contain(_formatter2);
-//    }
-//}
+    public Get()
+    {
+        _provider = new(new[] { _formatter1, _fakeFormatter, _formatter2 }, _logger);
+    }
 
-//TODO to fix test
+    [Fact]
+    public void WhenCalledThenFormaterReturned()
+    {
+        var result = _provider.Get(_fakeFormatter.GetType());
+
+        result.Should().Be(_fakeFormatter);
+    }
+}

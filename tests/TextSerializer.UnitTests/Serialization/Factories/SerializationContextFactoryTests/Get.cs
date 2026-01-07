@@ -1,7 +1,8 @@
 ﻿using MrRabbit.TextSerializer.Serialization.Factories;
 
-namespace MrRabbit.TextSerializer.UnitTests.Serialization.Services.SerializationContextFactoryTests;
-[Trait("Category", "SerializationContextFactory")]
+namespace MrRabbit.TextSerializer.UnitTests.Serialization.Factories.SerializationContextFactoryTests;
+
+[Trait("Category", nameof(SerializationContextFactory))]
 public class Get
 {
     private readonly IPropertyInfoProvider _provider = Mock.Of<IPropertyInfoProvider>();

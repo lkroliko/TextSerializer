@@ -40,6 +40,7 @@ internal class DeserializationContextFactory : IDeserializationContextFactory
         if (targetObject is null)
         {
             targetObject = _objectFactory.Get(propertyInfo.PropertyType);
+            propertyInfo.SetValue(parentObject, targetObject);
         }
 
         var properties = _propertyInfoProvider.GetProperties(targetObject);

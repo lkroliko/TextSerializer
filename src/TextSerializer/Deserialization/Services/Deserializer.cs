@@ -1,4 +1,5 @@
 ﻿namespace MrRabbit.TextSerializer.Deserialization.Services;
+
 internal class Deserializer : IDeserializer
 {
     private readonly IReceiveMessageFactory _messageFactory;
@@ -22,11 +23,7 @@ internal class Deserializer : IDeserializer
     public ReceiveMessage Deserialize(string text)
     {
         var receiveMessageType = GetReceiveMessageType(text);
-        text = RunPreProcess(text);
-        var context = GetDeserializationContext(text, receiveMessageType);
-        Deserialize(context);
-        RunPostProcess(context);
-        return (ReceiveMessage)context.TargetObject;
+        return Deserialize(receiveMessageType, text);
     }
 
     public ReceiveMessage Deserialize(Type type, string text)

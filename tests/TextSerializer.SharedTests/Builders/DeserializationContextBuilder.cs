@@ -14,7 +14,7 @@ public class DeserializationContextBuilder
         return this;
     }
 
-    internal DeserializationContextBuilder WithProperty(Func<DeserializationPropertyBuilder, DeserializationProperty> builder)
+    public DeserializationContextBuilder WithProperty(Func<DeserializationPropertyBuilder, DeserializationProperty> builder)
     {
         _properties.Add(builder.Invoke(new DeserializationPropertyBuilder(_targetObject)));
         return this;

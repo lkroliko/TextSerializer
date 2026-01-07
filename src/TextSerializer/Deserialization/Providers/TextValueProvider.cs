@@ -12,9 +12,9 @@ internal class TextValueProvider : ITextValueProvider
     public string[] GetValues(string text)
     {
         if (string.IsNullOrEmpty(_options.Value.Prefix) == false)
-            text = text.TrimStart(_options.Value.Prefix.ToArray());
+            text = text.StartsWith(_options.Value.Prefix) ? text[_options.Value.Prefix.Length..] : text;
         if (string.IsNullOrEmpty(_options.Value.Suffix) == false)
-            text = text.TrimEnd(_options.Value.Suffix.ToArray());
+            text = text.EndsWith(_options.Value.Suffix) ? text[..^_options.Value.Suffix.Length] : text;
         return text.Split(_options.Value.Separator);
     }
 }

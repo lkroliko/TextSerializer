@@ -14,7 +14,7 @@ internal class ValueConverterProvider : IValueConverterProvider
             var valueConverterType = valueConverter.GetType();
             if (_valueConvertersByConverterType.ContainsKey(valueConverterType))
             {
-                logger.LogWarning("IValueConverter is allready registered. Implemented value converter of type {1} is skipped.", valueConverterType.Name);
+                logger.LogWarning("IValueConverter is already registered. Implemented value converter of type {1} is skipped.", valueConverterType.Name);
             }
             else
             {
@@ -26,7 +26,7 @@ internal class ValueConverterProvider : IValueConverterProvider
                 var valueConverterTypeToConvert = valueConverterType.GetGenericInterfaceTypeArgument(typeof(IValueConverter<>), 0);
                 if (_valueConvertersByTypeToConvert.ContainsKey(valueConverterTypeToConvert))
                 {
-                    logger.LogWarning("IValueConverter<{0}> is allready registered. Implemented value converter of type {1} is skipped.", valueConverterTypeToConvert.Name, valueConverter.GetType().Name);
+                    logger.LogWarning("IValueConverter<{0}> is already registered. Implemented value converter of type {1} is skipped.", valueConverterTypeToConvert.Name, valueConverter.GetType().Name);
                 }
                 else
                 {
@@ -61,7 +61,7 @@ internal class ValueConverterProvider : IValueConverterProvider
     {
         if (_valueConvertersByConverterType.TryGetValue(type, out var valueConverter))
             return valueConverter;
-        throw new TextSerializerException($"No registerd IValueConverter of type '{type.Name}'.");
+        throw new TextSerializerException($"No registered IValueConverter of type '{type.Name}'.");
     }
 }
 

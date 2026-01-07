@@ -1,5 +1,6 @@
 ﻿namespace MrRabbit.TextSerializer.SharedTests.Builders;
-internal class DeserializationPropertyBuilder
+
+public class DeserializationPropertyBuilder
 {
     private readonly IPropertyInfo _propertyInfo = Mock.Of<IPropertyInfo>();
     private string? _value;
@@ -11,25 +12,25 @@ internal class DeserializationPropertyBuilder
         _propertyParentValue = propertyParentValue;
     }
 
-    internal DeserializationPropertyBuilder WithPropertyParentValue(object value)
+    public DeserializationPropertyBuilder WithPropertyParentValue(object value)
     {
         _propertyParentValue = value;
         return this;
     }
 
-    internal DeserializationPropertyBuilder WithValue(string? value)
+    public DeserializationPropertyBuilder WithValue(string? value)
     {
         _value = value;
         return this;
     }
 
-    internal DeserializationPropertyBuilder WithName(string name)
+    public DeserializationPropertyBuilder WithName(string name)
     {
         Mock.Get(_propertyInfo).Setup(p => p.Name).Returns(name);
         return this;
     }
 
-    internal DeserializationPropertyBuilder WithContext()
+    public DeserializationPropertyBuilder WithContext()
     {
         _context = A.DeserializationContext;
         return this;

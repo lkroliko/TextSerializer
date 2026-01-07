@@ -1,9 +1,11 @@
-﻿global using FluentAssertions;
+﻿global using AutoFixture;
+global using FluentAssertions;
 global using Microsoft.Extensions.Options;
 global using Moq;
 global using MrRabbit.TextSerializer.Common;
 global using MrRabbit.TextSerializer.Common.Attributes;
 global using MrRabbit.TextSerializer.Common.Enums;
+global using MrRabbit.TextSerializer.Common.Exceptions;
 global using MrRabbit.TextSerializer.Common.Interfaces;
 global using MrRabbit.TextSerializer.Services;
 global using MrRabbit.TextSerializer.SharedTests;
