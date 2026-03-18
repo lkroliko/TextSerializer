@@ -4,10 +4,10 @@
     <TargetFrameworks>net8.0;net9.0;net10.0</TargetFrameworks>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <FileVersion>0.0.5</FileVersion>
-    <Version>0.0.5</Version>
-    <AssemblyVersion>0.0.5</AssemblyVersion>
-    <PackageVersion>0.0.5-preview</PackageVersion>
+    <FileVersion>1.0.0</FileVersion>
+    <Version>1.0.0</Version>
+    <AssemblyVersion>1.0.0</AssemblyVersion>
+    <PackageVersion>1.0.0</PackageVersion>
     <NuSpecFile>TextSerializer.nuspec</NuSpecFile>
     <Copyright>MrRabbit</Copyright>
 	<RootNamespace>MrRabbit.$(MSBuildProjectName.Replace(" ", "_").Replace("-", "_"))</RootNamespace>
