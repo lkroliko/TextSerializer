@@ -25,6 +25,7 @@ A .NET library for text-based serialization and deserialization with no fixed fo
 - [Attributes](#attributes)
 - [API Reference](#api-reference)
 - [Full Example — STX/ETX Protocol](#full-example--stxetx-protocol)
+- [Changelog](#changelog)
 - [License](#license)
 
 ## Features
@@ -510,6 +511,10 @@ var text = _textSerializer.Serialize(new HelloTransmitMessage
 });
 // text == "<Hello|Example|1#CRC>"
 ```
+
+## Changelog
+
+See [CHANGELOG](doc/CHANGELOG.md) for version history and release notes.
 
 ## License
 
