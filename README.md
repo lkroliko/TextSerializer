@@ -1,17 +1,23 @@
+<div align="center">
+
 # TextSerializer
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![NuGet](https://img.shields.io/nuget/v/MrRabbit.TextSerializer.svg)](https://www.nuget.org/packages/MrRabbit.TextSerializer)
 
-A .NET library for text-based serialization and deserialization with no fixed format. The desired format is fully achievable through customization — think of TextSerializer as a **framework for text serialization**. It was designed with STX/ETX protocols in mind, but can be adapted to any text-based protocol.
+A .NET library for text-based serialization and deserialization with no fixed format.<br/>
+The desired format is fully achievable through customization — think of TextSerializer as a **framework for text serialization**.<br/>
+It was designed with STX/ETX protocols in mind, but can be adapted to any text-based protocol.
 
-## Table of Contents
+</div>
 
-- [Features](#features)
-- [Supported Frameworks](#supported-frameworks)
-- [Installation](#installation)
-- [Quick Start](#quick-start)
-- [Configuration](#configuration)
+## 📑 Table of Contents
+
+- [✨ Features](#-features)
+- [🎯 Supported Frameworks](#-supported-frameworks)
+- [📦 Installation](#-installation)
+- [🚀 Quick Start](#-quick-start)
+- [⚙️ Configuration](#️-configuration)
   - [Options](#options)
   - [Value Converters](#value-converters)
   - [Message Id Provider](#message-id-provider)
@@ -22,24 +28,26 @@ A .NET library for text-based serialization and deserialization with no fixed fo
   - [Custom Text Builder](#custom-text-builder)
   - [Custom Deserialization Property Factory](#custom-deserialization-property-factory)
   - [Typed Serializers & Deserializers](#typed-serializers--deserializers)
-- [Attributes](#attributes)
-- [API Reference](#api-reference)
-- [Full Example — STX/ETX Protocol](#full-example--stxetx-protocol)
-- [Changelog](#changelog)
-- [License](#license)
+- [🏷️ Attributes](#️-attributes)
+- [📖 API Reference](#-api-reference)
+- [💡 Full Example — STX/ETX Protocol](#-full-example--stxetx-protocol)
+- [📋 Changelog](#-changelog)
+- [📄 License](#-license)
 
-## Features
+---
 
-- Format-agnostic text serialization and deserialization
-- Fluent configuration API via `IServiceCollection`
-- Configurable prefix, suffix, and separator
-- Extensible value converters, formatters, validators, and processors
-- Built-in support for common .NET types
-- Attribute-driven property metadata (length constraints, positioning, optionality)
-- Message ID–based deserialization routing
-- Custom text builders and deserialization property factories
+## ✨ Features
 
-## Supported Frameworks
+- ✅ Format-agnostic text serialization and deserialization
+- ✅ Fluent configuration API via `IServiceCollection`
+- ✅ Configurable prefix, suffix, and separator
+- ✅ Extensible value converters, formatters, validators, and processors
+- ✅ Built-in support for common .NET types
+- ✅ Attribute-driven property metadata (length constraints, positioning, optionality)
+- ✅ Message ID–based deserialization routing
+- ✅ Custom text builders and deserialization property factories
+
+## 🎯 Supported Frameworks
 
 | Framework | Version |
 |-----------|---------|
@@ -47,7 +55,9 @@ A .NET library for text-based serialization and deserialization with no fixed fo
 | .NET      | 9.0     |
 | .NET      | 10.0    |
 
-## Installation
+---
+
+## 📦 Installation
 
 ```shell
 dotnet add package MrRabbit.TextSerializer
@@ -59,7 +69,9 @@ Or via the NuGet Package Manager:
 Install-Package MrRabbit.TextSerializer
 ```
 
-## Quick Start
+---
+
+## 🚀 Quick Start
 
 ### 1. Register the serializer
 
@@ -111,7 +123,9 @@ var received = _textSerializer.Deserialize<PongReceiveMessage>("<PONG|42>");
 // received.Sequence == 42
 ```
 
-## Configuration
+---
+
+## ⚙️ Configuration
 
 All configuration is done through the `AddTextSerializer` extension method on `IServiceCollection`:
 
@@ -149,12 +163,13 @@ Value converters handle conversion between property values and their string repr
 
 Call `UseDefaultValueConverters()` to register built-in converters for the following types:
 
-`bool`, `bool?`, `decimal`, `decimal?`, `int`, `int?`, `string`, `TimeSpan`, `TimeOnly`, `TimeOnly?`, `DateTime`, `DateTime?`, `DateOnly`, `DateOnly?`
+`bool` · `bool?` · `decimal` · `decimal?` · `int` · `int?` · `string` · `TimeSpan` · `TimeOnly` · `TimeOnly?` · `DateTime` · `DateTime?` · `DateOnly` · `DateOnly?`
 
 ```csharp
 builder.UseDefaultValueConverters();
 ```
 
+> [!NOTE]
 > Default converters use `.ToString()` for serialization and `[Type].Parse()` for deserialization.
 
 #### Custom converters
@@ -173,7 +188,8 @@ public class DoubleValueConverter : IValueConverter<double>
 builder.AddValueConverter<DoubleValueConverter>();
 ```
 
-> **Note:** For nullable value types, you must register separate converters — e.g., both `IValueConverter<int>` and `IValueConverter<int?>`.
+> [!IMPORTANT]
+> For nullable value types, you must register separate converters — e.g., both `IValueConverter<int>` and `IValueConverter<int?>`.
 
 A specific converter can also be applied per-property via the `[UseValueConverter<T>]` attribute.
 
@@ -259,7 +275,8 @@ public class MyMessage : TransmitMessage
 }
 ```
 
-> **Tip:** Create a custom attribute for cleaner usage:
+> [!TIP]
+> Create a custom attribute for cleaner usage:
 > ```csharp
 > public class ZeroPadAttribute : UseSerializerFormatterAttribute<ZeroPadFormatter> { }
 > ```
@@ -383,7 +400,9 @@ public class AddressDeserializer : ITypedDeserializer<Address>
 builder.AddTypedDeserializer<AddressDeserializer>();
 ```
 
-## Attributes
+---
+
+## 🏷️ Attributes
 
 | Attribute | Target | Description |
 |-----------|--------|-------------|
@@ -398,7 +417,9 @@ builder.AddTypedDeserializer<AddressDeserializer>();
 | `[UseSerializerFormatter<T>]` | Property | Applies a specific `ISerializerFormatter` to the property (supports multiple) |
 | `[UseValueConverter<T>]` | Property | Applies a specific `IValueConverter` to the property |
 
-## API Reference
+---
+
+## 📖 API Reference
 
 ### `ITextSerializer`
 
@@ -427,7 +448,9 @@ public interface ITextSerializer
 | `TransmitMessage` | Base class for messages to serialize |
 | `ReceiveMessage` | Base class for messages to deserialize |
 
-## Full Example — STX/ETX Protocol
+---
+
+## 💡 Full Example — STX/ETX Protocol
 
 The following example demonstrates a complete STX/ETX protocol integration.
 
@@ -512,10 +535,12 @@ var text = _textSerializer.Serialize(new HelloTransmitMessage
 // text == "<Hello|Example|1#CRC>"
 ```
 
-## Changelog
+---
+
+## 📋 Changelog
 
 See [CHANGELOG](doc/CHANGELOG.md) for version history and release notes.
 
-## License
+## 📄 License
 
 This project is licensed under the [MIT License](https://opensource.org/licenses/MIT).
