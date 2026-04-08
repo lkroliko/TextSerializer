@@ -9,7 +9,7 @@
     <owners>MrRabbit</owners>
     <authors>MrRabbit</authors>
     <tags>
-      TextSerializer STX ETX
+      TextSerializer STX ETX serialization deserialization text-serialization text-deserialization protocol parser formatter custom-format fixed-length delimited flat-file message-parser
     </tags>
     <description>
       TextSerializer is library for serialization and deserialization without specific format.
