@@ -1,21 +1,48 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFrameworks>net8.0;net9.0;net10.0</TargetFrameworks>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-    <FileVersion>1.0.0</FileVersion>
-    <Version>1.0.0</Version>
-    <AssemblyVersion>1.0.0</AssemblyVersion>
-    <PackageVersion>1.0.0</PackageVersion>
-    <NuSpecFile>TextSerializer.nuspec</NuSpecFile>
-    <Copyright>MrRabbit</Copyright>
-	<RootNamespace>MrRabbit.$(MSBuildProjectName.Replace(" ", "_").Replace("-", "_"))</RootNamespace>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFrameworks>net8.0;net9.0;net10.0</TargetFrameworks>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<FileVersion>1.0.0</FileVersion>
+		<Version>1.0.0</Version>
+		<AssemblyVersion>1.0.0</AssemblyVersion>
+		<PackageVersion>1.0.0</PackageVersion>
+		<Copyright>MrRabbit</Copyright>
+		<RootNamespace>MrRabbit.$(MSBuildProjectName.Replace(" ", "_").Replace("-", "_"))</RootNamespace>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.10" />
-    <PackageReference Include="Microsoft.Extensions.Options" Version="9.0.10" />
-  </ItemGroup>
+		<PackageId>MrRabbit.TextSerializer</PackageId>
+		<Title>TextSerializer</Title>
+		<Authors>MrRabbit</Authors>
+		<Owners>MrRabbit</Owners>
+		<Description>TextSerializer is library for serialization and deserialization without specific format. Required format is achievable by customization. Look at this library as framework for text serialization. It was designed for STX ETX protocols.</Description>
+		<PackageProjectUrl>https://github.com/lkroliko/TextSerializer</PackageProjectUrl>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageIcon>icon.png</PackageIcon>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageTags>TextSerializer STX ETX serialization deserialization text-serialization text-deserialization protocol parser formatter custom-format fixed-length delimited flat-file message-parser</PackageTags>
+		<RequireLicenseAcceptance>false</RequireLicenseAcceptance>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Include="..\..\README.md" Pack="true" PackagePath="\" />
+		<None Include="Common\Resources\icon.png" Pack="true" PackagePath="\" />
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(TargetFramework)' == 'net8.0'">
+		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.*" />
+		<PackageReference Include="Microsoft.Extensions.Options" Version="8.*" />
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(TargetFramework)' == 'net9.0'">
+		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.*" />
+		<PackageReference Include="Microsoft.Extensions.Options" Version="9.*" />
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(TargetFramework)' == 'net10.0'">
+		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.*" />
+		<PackageReference Include="Microsoft.Extensions.Options" Version="10.*" />
+	</ItemGroup>
 
 </Project>

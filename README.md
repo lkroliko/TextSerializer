@@ -1,9 +1,11 @@
 <div align="center">
 
 # TextSerializer
-
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
-[![NuGet](https://img.shields.io/nuget/v/MrRabbit.TextSerializer.svg)](https://www.nuget.org/packages/MrRabbit.TextSerializer)
+<a href="https://dotnet.microsoft.com/"><img src="https://img.shields.io/badge/.NET-8-512bd4" alt=".NET8"></a>
+<a href="https://dotnet.microsoft.com/"><img src="https://img.shields.io/badge/.NET-9-512bd4" alt=".NET9"></a>
+<a href="https://dotnet.microsoft.com/"><img src="https://img.shields.io/badge/.NET-10-512bd4" alt=".NET10"></a>
+<a href="https://www.nuget.org/packages/MrRabbit.TextSerializer"><img src="https://img.shields.io/nuget/v/MrRabbit.TextSerializer?logo=nuget&color=004880" alt="NuGet"></a>
+<a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License: MIT"></a>
 
 A .NET library for text-based serialization and deserialization with no fixed format.<br/>
 The desired format is fully achievable through customization — think of TextSerializer as a **framework for text serialization**.<br/>
@@ -543,4 +545,4 @@ See [CHANGELOG](doc/CHANGELOG.md) for version history and release notes.
 
 ## 📄 License
 
-This project is licensed under the [MIT License](https://opensource.org/licenses/MIT).
+This project is licensed under the [MIT License](LICENSE.txt).
